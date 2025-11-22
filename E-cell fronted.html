@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Cell SGSU - Innovate | Incubate | Inspire</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Lucide Icons for aesthetic vectors -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Custom styles for the required color theme and font */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        
+        :root {
+            --color-primary-purple: #5c2c77; /* Deep Purple */
+            --color-secondary-orange: #ff7f2a; /* Bright Orange */
+            --color-background-black: #000000;
+            --color-text-light: #f3f4f6; /* Gray 100 */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-background-black);
+            color: var(--color-text-light);
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        }
+
+        /* Custom Tailwind Configuration (Inline for Single File) */
+        .e-cell-purple { background-color: var(--color-primary-purple); }
+        .e-cell-text-purple { color: var(--color-primary-purple); }
+        .e-cell-orange { background-color: var(--color-secondary-orange); }
+        .e-cell-text-orange { color: var(--color-secondary-orange); }
+        .border-e-cell-orange { border-color: var(--color-secondary-orange); }
+
+        /* Keyframe for Logo Pulse Animation */
+        @keyframes logo-pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(255, 127, 42, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 0 30px rgba(255, 127, 42, 0.8), 0 0 45px rgba(92, 44, 119, 0.6); }
+        }
+
+        /* Keyframe for Hero Text Fade-In */
+        @keyframes text-slide-in {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Keyframe for upward growth of the arrow/E element */
+        @keyframes arrow-grow {
+            0% { transform: translateY(10px); opacity: 0.5; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .animate-logo-pulse {
+            animation: logo-pulse 3s infinite ease-in-out;
+        }
+
+        .animate-text-slide-in {
+            animation: text-slide-in 1s ease-out forwards;
+        }
+
+        /* Animation for section content fade-in on scroll */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- CLEARER LOGO STYLING --- */
+        .logo-placeholder {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: var(--color-background-black);
+            border: 4px solid var(--color-secondary-orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(92, 44, 119, 0.7);
+        }
+
+        .e-logo-element {
+            position: absolute;
+            left: -5px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 5rem;
+            font-weight: 900;
+            color: var(--color-primary-purple);
+            opacity: 0.9;
+            animation: arrow-grow 1s ease-out;
+        }
+
+        .e-logo-text-group {
+            position: relative;
+            text-align: right;
+            padding-left: 50px; /* Space for the 'E' */
+        }
+        
+        .e-logo-text-group .e-cell-word {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--color-secondary-orange);
+            letter-spacing: 2px;
+            display: block;
+            line-height: 1.1;
+        }
+        .e-logo-text-group .sgsu-word {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--color-primary-purple);
+            letter-spacing: 1px;
+            display: block;
+        }
+
+        /* Simple Orange Upward Arrow SVG/Element */
+        .e-logo-arrow {
+            position: absolute;
+            top: 15%;
+            left: 50%;
+            width: 30px;
+            height: 30px;
+            color: var(--color-secondary-orange);
+            transform: rotate(-45deg);
+            animation: arrow-grow 1.5s ease-out forwards;
+        }
+        /* --- END LOGO STYLING --- */
+
+        /* Hover animation for feature cards */
+        .feature-card {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            cursor: pointer;
+        }
+        .feature-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(255, 127, 42, 0.5);
+        }
+
+        /* --- HERO BACKGROUND STYLES --- */
+        .hero-with-bg {
+            /* Placeholder image URL for Scope Global Skills University Campus */
+    
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Parallax effect for depth */
+            position: relative;
+        }
+
+        .hero-overlay {
+            /* Semi-transparent dark overlay for high contrast */
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            /* Gradient combining black and purple for theme */
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.75) 0%, rgba(92, 44, 119, 0.65) 100%);
+            z-index: 1; /* Below content, above background image */
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- Navbar -->
+    <nav class="sticky top-0 z-50 p-4 backdrop-blur-sm bg-black/60 shadow-lg shadow-purple-900/20">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold e-cell-text-orange tracking-widest">E-Cell <span class="e-cell-text-purple">SGSU</span></h1>
+            <div class="space-x-4 hidden md:flex">
+                <a href="#hero" class="hover:e-cell-text-orange transition-colors">Home</a>
+                <a href="#about" class="hover:e-cell-text-orange transition-colors">About</a>
+                <a href="#features" class="hover:e-cell-text-orange transition-colors">Initiatives</a>
+                <a href="#events" class="hover:e-cell-text-orange transition-colors">Events</a>
+                <a href="#gallery" class="hover:e-cell-text-orange transition-colors">Gallery</a>
+                <a href="#contact" class="hover:e-cell-text-orange transition-colors">Contact</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Mobile Menu Drawer (Hidden by Default) -->
+    <div id="mobile-menu" class="hidden md:hidden fixed inset-0 top-16 z-40 e-cell-purple/95 backdrop-blur-md">
+        <div class="flex flex-col items-center space-y-6 p-8">
+            <a href="#hero" class="text-2xl hover:e-cell-text-orange transition-colors">Home</a>
+            <a href="#about" class="text-2xl hover:e-cell-text-orange transition-colors">About</a>
+            <a href="#features" class="text-2xl hover:e-cell-text-orange transition-colors">Initiatives</a>
+            <a href="#events" class="text-2xl hover:e-cell-text-orange transition-colors">Events</a>
+            <a href="#gallery" class="text-2xl hover:e-cell-text-orange transition-colors">Gallery</a>
+            <a href="#contact" class="text-2xl hover:e-cell-text-orange transition-colors">Contact</a>
+        </div>
+    </div>
+
+
+    <!-- Hero Section with Background Image and Overlay -->
+    <header id="hero" class="min-h-screen flex items-center justify-center p-4 relative overflow-hidden hero-with-bg">
+        
+        <!-- Background Overlay for contrast -->
+        <div class="hero-overlay"></div>
+
+        <!-- Animated Background Gradient Circle (Lower opacity for image visibility) -->
+        <div class="absolute inset-0 flex items-center justify-center z-20">
+            <div class="w-96 h-96 md:w-[600px] md:h-[600px] bg-purple-900 rounded-full opacity-10 blur-3xl mix-blend-screen animate-spin-slow"></div>
+            <div class="w-80 h-80 md:w-[500px] md:h-[500px] absolute bg-orange-500 rounded-full opacity-10 blur-3xl mix-blend-screen animate-pulse-slow"></div>
+        </div>
+        
+        <div class="container mx-auto text-center z-30 flex flex-col md:flex-row items-center justify-center gap-10">
+            
+            <!-- Logo in Middle (Clearer Version) -->
+            <div class="logo-placeholder animate-logo-pulse flex-shrink-0">
+                <div class="e-logo-element">E</div>
+                <div class="e-logo-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+                </div>
+                <div class="e-logo-text-group">
+                    <span class="e-cell-word">E-CELL</span>
+                    <span class="sgsu-word">S G S U</span>
+                </div>
+            </div>
+
+            <!-- Hero Text Content -->
+            <div class="max-w-xl text-left mt-8 md:mt-0 animate-text-slide-in">
+                <p class="text-lg uppercase font-semibold e-cell-text-orange mb-2">The Entrepreneurship Cell</p>
+                <h1 class="text-5xl md:text-7xl font-extrabold leading-tight text-white mb-4">
+                    <span class="e-cell-text-purple block">Ideas.</span>
+                    <span class="e-cell-text-orange block">Innovation.</span>
+                    <span class="block">Impact.</span>
+                </h1>
+                <p class="text-xl text-gray-300 mb-8">
+                    Building the next generation of job creators at Scope Global Skills University.
+                </p>
+                <a href="#features" class="inline-block py-3 px-8 rounded-full font-bold text-lg text-black e-cell-orange hover:bg-orange-400 transition-all shadow-xl shadow-orange-500/50">
+                    Get Started
+                </a>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 md:py-32 fade-in-section">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold mb-4 e-cell-text-purple">Our Mission</h2>
+            <p class="text-xl max-w-3xl mx-auto text-gray-400 mb-12">
+                We foster a culture of entrepreneurship, providing resources, mentorship, and a platform for students to transform their innovative ideas into successful ventures.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card 1: Innovate -->
+                <div class="p-6 rounded-xl border border-e-cell-orange/50 shadow-lg e-cell-purple/20 backdrop-blur-sm transition-transform duration-300 hover:scale-[1.02]">
+                    <div class="flex justify-center mb-4">
+                        <i data-lucide="lightbulb" class="w-12 h-12 e-cell-text-orange"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-3 e-cell-text-orange">Innovate</h3>
+                    <p class="text-gray-300">Ignite creative thinking and problem-solving to generate groundbreaking solutions.</p>
+                </div>
+                <!-- Card 2: Incubate -->
+                <div class="p-6 rounded-xl border border-e-cell-orange/50 shadow-lg e-cell-purple/20 backdrop-blur-sm transition-transform duration-300 hover:scale-[1.02]">
+                    <div class="flex justify-center mb-4">
+                        <i data-lucide="rocket" class="w-12 h-12 e-cell-text-orange"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-3 e-cell-text-orange">Incubate</h3>
+                    <p class="text-gray-300">Nurture early-stage startups with essential resources, funding, and infrastructure.</p>
+                </div>
+                <!-- Card 3: Inspire -->
+                <div class="p-6 rounded-xl border border-e-cell-orange/50 shadow-lg e-cell-purple/20 backdrop-blur-sm transition-transform duration-300 hover:scale-[1.02]">
+                    <div class="flex justify-center mb-4">
+                        <i data-lucide="users" class="w-12 h-12 e-cell-text-orange"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-3 e-cell-text-orange">Inspire</h3>
+                    <p class="text-gray-300">Connect students with successful alumni and industry leaders for motivation and guidance.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features/Initiatives Section -->
+    <section id="features" class="py-20 md:py-32 e-cell-purple/20 fade-in-section">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold mb-16 text-center e-cell-text-orange">Key Initiatives</h2>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                
+                <!-- Initiative 1: Mentorship -->
+                <div class="feature-card p-6 bg-black rounded-xl border border-e-cell-purple shadow-2xl">
+                    <div class="flex items-start">
+                        <i data-lucide="graduation-cap" class="w-10 h-10 e-cell-text-orange flex-shrink-0 mr-4 mt-1"></i>
+                        <div>
+                            <h3 class="text-3xl font-bold mb-2 e-cell-text-purple">Mentorship Program</h3>
+                            <p class="text-gray-400 mb-4">Get personalized guidance from industry veterans, successful alumni, and experienced faculty members to refine your business model and strategy.</p>
+                            <a href="#" class="font-semibold text-sm hover:underline e-cell-text-orange">Learn More &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Initiative 2: Funding & Grants -->
+                <div class="feature-card p-6 bg-black rounded-xl border border-e-cell-purple shadow-2xl">
+                    <div class="flex items-start">
+                        <i data-lucide="hand-coins" class="w-10 h-10 e-cell-text-orange flex-shrink-0 mr-4 mt-1"></i>
+                        <div>
+                            <h3 class="text-3xl font-bold mb-2 e-cell-text-purple">Seed Funding & Grants</h3>
+                            <p class="text-gray-400 mb-4">Access critical seed funding and support for government grants to kickstart your startup and scale your operations.</p>
+                            <a href="#" class="font-semibold text-sm hover:underline e-cell-text-orange">Explore Opportunities &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Initiative 3: Workshops & Trainings -->
+                <div class="feature-card p-6 bg-black rounded-xl border border-e-cell-purple shadow-2xl">
+                    <div class="flex items-start">
+                        <i data-lucide="monitor-dot" class="w-10 h-10 e-cell-text-orange flex-shrink-0 mr-4 mt-1"></i>
+                        <div>
+                            <h3 class="text-3xl font-bold mb-2 e-cell-text-purple">Skill Workshops</h3>
+                            <p class="text-gray-400 mb-4">Hands-on training sessions covering everything from market research, financial modeling, legal compliance, and digital marketing.</p>
+                            <a href="#" class="font-semibold text-sm hover:underline e-cell-text-orange">View Schedule &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Initiative 4: Idea Pitch Competitions -->
+                <div class="feature-card p-6 bg-black rounded-xl border border-e-cell-purple shadow-2xl">
+                    <div class="flex items-start">
+                        <i data-lucide="trophy" class="w-10 h-10 e-cell-text-orange flex-shrink-0 mr-4 mt-1"></i>
+                        <div>
+                            <h3 class="text-3xl font-bold mb-2 e-cell-text-purple">Pitch Competitions</h3>
+                            <p class="text-gray-400 mb-4">Present your ideas to a panel of venture capitalists and angel investors to gain feedback and potential investment.</p>
+                            <a href="#" class="font-semibold text-sm hover:underline e-cell-text-orange">Register Now &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section (Upcoming Events) -->
+    <section id="events" class="py-20 md:py-32 fade-in-section">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold mb-16 text-center e-cell-text-purple">Upcoming Events</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Event 1 -->
+                <div class="bg-gray-900/50 p-6 rounded-lg shadow-xl border-l-4 border-e-cell-orange transition-transform duration-300 hover:shadow-orange-700/50 hover:scale-[1.01]">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-2xl font-bold e-cell-text-orange">Startup Weekend Bhopal</h3>
+                            <p class="text-sm text-gray-400">Speaker: Dr. V. K. Sharma (Angel Investor)</p>
+                        </div>
+                        <span class="e-cell-purple text-white text-xs font-semibold px-3 py-1 rounded-full uppercase">Seminar</span>
+                    </div>
+                    <p class="text-gray-300 mb-4">A 3-day hackathon where ideas go from concept to minimum viable product. Form teams, build, and pitch!</p>
+                    <div class="flex justify-between items-center text-sm font-medium text-gray-400">
+                        <span class="flex items-center">
+                            <i data-lucide="calendar" class="w-4 h-4 mr-2 e-cell-text-purple"></i> 10th - 12th Dec 2025
+                        </span>
+                        <span class="flex items-center">
+                            <i data-lucide="map-pin" class="w-4 h-4 mr-2 e-cell-text-purple"></i> SGSU Auditorium
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Event 2 -->
+                <div class="bg-gray-900/50 p-6 rounded-lg shadow-xl border-l-4 border-e-cell-purple transition-transform duration-300 hover:shadow-purple-700/50 hover:scale-[1.01]">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-2xl font-bold e-cell-text-purple">Masterclass: FinTech Trends</h3>
+                            <p class="text-sm text-gray-400">Speaker: Ms. Sneha Rao (FinTech Founder)</p>
+                        </div>
+                        <span class="e-cell-orange text-black text-xs font-semibold px-3 py-1 rounded-full uppercase">Workshop</span>
+                    </div>
+                    <p class="text-gray-300 mb-4">Deep dive into the latest technologies and business models shaping the Financial Technology landscape globally.</p>
+                    <div class="flex justify-between items-center text-sm font-medium text-gray-400">
+                        <span class="flex items-center">
+                            <i data-lucide="calendar" class="w-4 h-4 mr-2 e-cell-text-orange"></i> 20th Jan 2026
+                        </span>
+                        <span class="flex items-center">
+                            <i data-lucide="map-pin" class="w-4 h-4 mr-2 e-cell-text-orange"></i> Incubation Center, SGSU
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-10">
+                 <button class="py-2 px-6 rounded-full font-bold e-cell-text-orange border-2 border-e-cell-orange hover:e-cell-orange hover:text-black transition-all">
+                    View All Past Events
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Campus & Culture Gallery Section -->
+    <section id="gallery" class="py-20 md:py-32 fade-in-section">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold mb-16 text-center e-cell-text-orange">Campus & E-Cell Culture</h2>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Image 1: Placeholder for SGSU Campus Building -->
+                <div class="overflow-hidden rounded-xl shadow-2xl hover:shadow-purple-700/50 transition-shadow duration-300">
+                    <img src="https://images.shiksha.com/mediadata/images/1692887984phpCtW5Rd.jpeg" 
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/5c2c77/ffffff?text=SGSU+Campus'"
+                         alt="Scope Global Skills University Main Building" class="w-full h-auto object-cover aspect-video transform hover:scale-105 transition-transform duration-500">
+                    <p class="p-3 text-center text-sm font-semibold e-cell-purple text-gray-100">State-of-the-Art Campus</p>
+                </div>
+
+                <!-- Image 2: Placeholder for E-Cell Workshop/Seminar -->
+                <div class="overflow-hidden rounded-xl shadow-2xl hover:shadow-orange-700/50 transition-shadow duration-300">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWKDohes5Of_zjHsLXSNNRLOHUNwr42dfM5Q&s"
+                         onerror="this.onerror=null;this.src='httpss://placehold.co/600x400/ff7f2a/000000?text=E-Cell+Event'" 
+                         alt="E-Cell Workshop in Progress" class="w-full h-auto object-cover aspect-video transform hover:scale-105 transition-transform duration-500">
+                    <p class="p-3 text-center text-sm font-semibold e-cell-orange text-black">Hands-on Skill Development</p>
+                </div>
+
+                <!-- Image 3: Placeholder for Group of Students -->
+                <div class="overflow-hidden rounded-xl shadow-2xl hover:shadow-purple-700/50 transition-shadow duration-300">
+                    <img src="https://imageio.forbes.com/specials-images/imageserve/5e020def4e2917000783d582/0x0.jpg?format=jpg&height=600&width=1200&fit=bounds"
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/5c2c77/ffffff?text=Future+Entrepreneurs'" 
+                         alt="Scope Global Skills University Students" class="w-full h-auto object-cover aspect-video transform hover:scale-105 transition-transform duration-500">
+                    <p class="p-3 text-center text-sm font-semibold e-cell-purple text-gray-100">Community of Innovators</p>
+                </div>
+
+                <!-- Image 4: Placeholder for Incubation Center -->
+                <div class="overflow-hidden rounded-xl shadow-2xl hover:shadow-orange-700/50 transition-shadow duration-300">
+                    <img src="https://aiic.lnctu.ac.in/wp-content/uploads/2021/03/aiic-1.jpg"
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/ff7f2a/000000?text=Idea+Lab'"
+                         alt="SGSU Incubation Center" class="w-full h-auto object-cover aspect-video transform hover:scale-105 transition-transform duration-500">
+                    <p class="p-3 text-center text-sm font-semibold e-cell-orange text-black">The Incubation Hub</p>
+                </div>
+                
+                <!-- Image 5: Placeholder for Convocation/Graduation -->
+                <div class="overflow-hidden rounded-xl shadow-2xl hover:shadow-purple-700/50 transition-shadow duration-300">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTM9iAOT_Cbsb5pKZLJyHJaTflYsipDApRM7Q&s"
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/5c2c77/ffffff?text=Achievement'"
+                         alt="SGSU Convocation Ceremony" class="w-full h-auto object-cover aspect-video transform hover:scale-105 transition-transform duration-500">
+                    <p class="p-3 text-center text-sm font-semibold e-cell-purple text-gray-100">Celebrating Success</p>
+                </div>
+
+                <!-- Image 6: Placeholder for Networking Event -->
+                <div class="overflow-hidden rounded-xl shadow-2xl hover:shadow-orange-700/50 transition-shadow duration-300">
+                    <img src="https://s29814.pcdn.co/wp-content/uploads/2017/06/shutterstock_479633479.jpg.optimal.jpg"
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/ff7f2a/000000?text=E-Connect'"
+                         alt="E-Cell Networking Event" class="w-full h-auto object-cover aspect-video transform hover:scale-105 transition-transform duration-500">
+                    <p class="p-3 text-center text-sm font-semibold e-cell-orange text-black">E-Cell Networking</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section id="contact" class="py-20 md:py-32 e-cell-purple/20 fade-in-section">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold mb-12 text-center e-cell-text-purple">Get In Touch</h2>
+            <div class="max-w-2xl mx-auto p-8 bg-black rounded-xl shadow-2xl shadow-purple-900/50 border-t-4 border-e-cell-orange">
+                <form onsubmit="return handleFormSubmit(event)">
+                    <div class="mb-4">
+                        <label for="name" class="block text-gray-300 font-medium mb-2">Name</label>
+                        <input type="text" id="name" name="name" required
+                               class="w-full p-3 rounded-lg bg-gray-900/70 border border-e-cell-purple focus:border-e-cell-orange focus:ring-1 focus:ring-e-cell-orange transition text-white">
+                    </div>
+                    <div class="mb-4">
+                        <label for="email" class="block text-gray-300 font-medium mb-2">University Email</label>
+                        <input type="email" id="email" name="email" required
+                               class="w-full p-3 rounded-lg bg-gray-900/70 border border-e-cell-purple focus:border-e-cell-orange focus:ring-1 focus:ring-e-cell-orange transition text-white">
+                    </div>
+                    <div class="mb-6">
+                        <label for="message" class="block text-gray-300 font-medium mb-2">Your Idea/Query</label>
+                        <textarea id="message" name="message" rows="4" required
+                                  class="w-full p-3 rounded-lg bg-gray-900/70 border border-e-cell-purple focus:border-e-cell-orange focus:ring-1 focus:ring-e-cell-orange transition text-white"></textarea>
+                    </div>
+                    <button type="submit"
+                            class="w-full py-3 px-4 rounded-lg font-bold text-black e-cell-orange hover:bg-orange-400 transition-all shadow-lg hover:shadow-orange-400/70 transform hover:scale-[1.01]">
+                        Submit to E-Cell
+                    </button>
+                    <div id="form-message" class="mt-4 text-center text-green-500 font-semibold hidden"></div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black border-t border-e-cell-purple/50 py-8">
+        <div class="container mx-auto px-4 text-center text-gray-400 text-sm">
+            <div class="mb-4">
+                <p>&copy; 2025 E-Cell, Scope Global Skills University (SGSU). All Rights Reserved.</p>
+                <p>Designed with passion to ignite the future of entrepreneurship.</p>
+            </div>
+            <div class="flex justify-center space-x-4">
+                <a href="#" class="hover:e-cell-text-orange transition-colors"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+                <a href="#" class="hover:e-cell-text-orange transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                <a href="#" class="hover:e-cell-text-orange transition-colors"><i data-lucide="mail" class="w-5 h-5"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Interactivity and Animations -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // 1. Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when a link is clicked
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+
+        // 2. Intersection Observer for Fade-In Animation on Scroll
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    // Optional: Stop observing after it has faded in
+                    observer.unobserve(entry.target); 
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-section').forEach(section => {
+            observer.observe(section);
+        });
+
+
+        // 3. Form Submission Handler (Prevents actual submission in this static demo)
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const formMessage = document.getElementById('form-message');
+            
+            // Show success message and hide after 3 seconds
+            formMessage.textContent = 'Thank you! Your query has been received by the E-Cell team.';
+            formMessage.classList.remove('hidden');
+            formMessage.classList.add('text-green-500');
+
+            // Clear form fields
+            event.target.reset();
+
+            setTimeout(() => {
+                formMessage.classList.add('hidden');
+            }, 5000); 
+
+            return false; // Prevent default browser action
+        }
+
+        // 4. Smooth Scrolling for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    // Calculate the position to scroll to, factoring in the fixed header height (approx 72px)
+                    const offsetTop = targetElement.getBoundingClientRect().top + window.scrollY - 72;
+
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+    <script>
+        const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const OpenAI = require('openai');
+const nodemailer = require('nodemailer');
+
+// Hardcode or set via environment variables (recommended for security)
+// Replace these with your actual values
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY || 'your_openai_api_key_here';
+const EMAIL_USER = process.env.EMAIL_USER || 'your_email@gmail.com';
+const EMAIL_PASS = process.env.EMAIL_PASS || 'your_email_password';
+const PORT = process.env.PORT || 3000;
+
+const app = express();
+
+// Middleware
+app.use(cors()); // Allow cross-origin requests from your frontend
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Initialize OpenAI
+const openai = new OpenAI({
+  apiKey: OPENAI_API_KEY,
+});
+
+// Email transporter (optional, for sending confirmation emails)
+// Configure with your email service (e.g., Gmail, SendGrid)
+const transporter = nodemailer.createTransporter({
+  service: 'gmail', // Or your email provider
+  auth: {
+    user: EMAIL_USER,
+    pass: EMAIL_PASS,
+  },
+});
+
+// API Endpoint for Contact Form Submission
+app.post('/api/contact', async (req, res) => {
+  const { name, email, message } = req.body;
+
+  if (!name || !email || !message) {
+    return res.status(400).json({ error: 'All fields are required.' });
+  }
+
+  try {
+    // Use OpenAI to generate an AI response (e.g., advice on the user's idea)
+    const aiResponse = await openai.chat.completions.create({
+      model: 'gpt-3.5-turbo', // Or 'gpt-4' if you have access
+      messages: [
+        {
+          role: 'system',
+          content: 'You are an AI assistant for E-Cell SGSU. Provide helpful, concise advice on entrepreneurship ideas based on the user\'s message. Keep responses under 200 words.',
+        },
+        {
+          role: 'user',
+          content: `User's name: ${name}. Email: ${email}. Message: ${message}. Provide feedback or advice on their idea/query.`,
+        },
+      ],
+      max_tokens: 200,
+    });
+
+    const aiAdvice = aiResponse.choices[0].message.content;
+
+    // Optional: Send confirmation email with AI advice
+    const mailOptions = {
+      from: EMAIL_USER,
+      to: email,
+      subject: 'Thank you for contacting E-Cell SGSU!',
+      text: `Hi ${name},\n\nThank you for reaching out to E-Cell SGSU. Here's some AI-generated advice based on your query:\n\n${aiAdvice}\n\nWe'll get back to you soon!\n\nBest,\nE-Cell Team`,
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    // Respond to frontend
+    res.status(200).json({
+      message: 'Thank you! Your query has been received, and we\'ve sent you an AI-powered response via email.',
+      aiAdvice, // Optionally include in JSON for frontend display
+    });
+  } catch (error) {
+    console.error('Error processing request:', error);
+    res.status(500).json({ error: 'Something went wrong. Please try again later.' });
+  }
+});
+
+// Optional: Endpoint to fetch dynamic events (if you want to make events dynamic)
+app.get('/api/events', (req, res) => {
+  // In a real app, fetch from a database
+  const events = [
+    {
+      title: 'Startup Weekend Bhopal',
+      speaker: 'Dr. V. K. Sharma (Angel Investor)',
+      date: '10th - 12th Dec 2025',
+      location: 'SGSU Auditorium',
+      type: 'Seminar',
+    },
+    {
+      title: 'Masterclass: FinTech Trends',
+      speaker: 'Ms. Sneha Rao (FinTech Founder)',
+      date: '20th Jan 2026',
+      location: 'Incubation Center, SGSU',
+      type: 'Workshop',
+    },
+  ];
+  res.json(events);
+});
+
+// Start server
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
+
+    </script>
+</body>
+</html>
